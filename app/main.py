@@ -1,3 +1,4 @@
+from app import models
 #endpoint /test
 from fastapi import FastAPI
 
