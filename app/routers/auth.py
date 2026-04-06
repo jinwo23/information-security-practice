@@ -1,3 +1,13 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
+from app.database import get_db
+from app.models import User
+from app.schemas import UserCreate, UserResponse, LoginRequest, LoginResponse
+from app.security import hash_password, verify_password
+
+router = APIRouter(prefix="/auth", tags=["Authentication"])
+
 # Тестовий endpoint для перевірки роботи auth
 @router.get("/test")
 def test_auth():
