@@ -1,19 +1,19 @@
 from fastapi import FastAPI
-from app.database import Base, engine
-from app import models  # ★ Новий імпорт
- 
-app = FastAPI(title="Electronic Dean's Office")
- 
- 
+from app.routers import auth
+
+app = FastAPI(
+    title="Електронний деканат",
+    description="API для управління академічними даними",
+    version="0.4.0"
+)
+
+# Підключення роутера
+app.include_router(auth.router)
+
 @app.get("/")
 def root():
-	return {"message": "Electronic Dean's Office API"}
- 
- 
+    return {"message": "Електронний деканат API v0.4.0"}
+
 @app.get("/health")
 def health_check():
-	return {
-    	"status": "healthy",
-    	"database": "SQLite",
-    	"tables": len(Base.metadata.tables)
-	}
+    return {"status": "healthy"}
