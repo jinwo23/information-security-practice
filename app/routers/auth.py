@@ -81,3 +81,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         username=user.username,
         roles=[]
     )
+    
+    @router.get("/users")
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
