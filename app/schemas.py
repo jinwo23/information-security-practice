@@ -4,7 +4,6 @@ import re
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
-# Дані для створення користувача (реєстрація)
 class UserCreate(BaseModel):
     username: str = Field(
         ...,
@@ -13,7 +12,7 @@ class UserCreate(BaseModel):
         pattern=r"^[a-zA-Z0-9_]+$",
         description="Логін"
     )
-    email: EmailStr  # Email користувача
+    email: EmailStr
     password: str = Field(
         ...,
         min_length=8,
@@ -27,7 +26,6 @@ class UserCreate(BaseModel):
         description="Повне ім'я"
     )
 
-    # Перевірка складності пароля
     @field_validator("password")
     @classmethod
     def validate_password_strength(cls, v: str) -> str:
@@ -40,33 +38,27 @@ class UserCreate(BaseModel):
         return v
 
 
-# Відповідь API з користувачем (без пароля)
 class UserResponse(BaseModel):
     id: int
     username: str
     email: str
-    full_name: str
+    full_name: str | None = None
     is_active: bool
     created_at: datetime
 
-    # Дозволяє працювати з SQLAlchemy моделями
     model_config = {"from_attributes": True}
 
 
-# Дані для логіну
 class LoginRequest(BaseModel):
     username: str
     password: str
 
 
-# Відповідь після логіну
 class LoginResponse(BaseModel):
     message: str
     user_id: int
     username: str
     roles: list[str] = []
-<<<<<<< HEAD
-
 
 
 class TokenResponse(BaseModel):
@@ -83,9 +75,7 @@ class UserInfo(BaseModel):
     id: int
     username: str
     email: str
-    full_name: str
+    full_name: str | None = None
     role: str
 
     model_config = {"from_attributes": True}
-=======
->>>>>>> 66b99151b6a7664ca4c6f797fb149ef5b12802d3

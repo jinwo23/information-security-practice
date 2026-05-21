@@ -31,7 +31,7 @@ role_permissions = Table(
 
 # Основна модель користувача
 class User(Base):
-    tablename = "users"
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)  # Унікальний ID
     username = Column(String)  # Логін
@@ -54,7 +54,7 @@ class User(Base):
 
 # Роль користувача (admin, student)
 class Role(Base):
-    tablename = "roles"
+    __tablename__ = "roles"
 
     id = Column(Integer, primary_key=True)  # ID ролі
     name = Column(String)  # Назва ролі
@@ -66,7 +66,7 @@ class Role(Base):
 
 # Дозволи для ролей
 class Permission(Base):
-    tablename = "permissions"
+    __tablename__ = "permissions"
 
     id = Column(Integer, primary_key=True)  # ID дозволу
     name = Column(String)  # Назва дозволу
@@ -78,7 +78,7 @@ class Permission(Base):
 
 # Група студентів
 class Group(Base):
-    tablename = "groups"
+    __tablename__ = "groups"
 
     id = Column(Integer, primary_key=True)  # ID групи
     name = Column(String)  # Назва групи
@@ -90,7 +90,7 @@ class Group(Base):
 
 # Предмет
 class Subject(Base):
-    tablename = "subjects"
+    __tablename__ = "subjects"
 
     id = Column(Integer, primary_key=True)  # ID предмета
     name = Column(String)  # Назва предмета
@@ -103,7 +103,7 @@ class Subject(Base):
 
 # Оцінка студента
 class Grade(Base):
-    tablename = "grades"
+    __tablename__ = "grades"
 
     id = Column(Integer, primary_key=True)  # ID оцінки
     student_id = Column(Integer, ForeignKey("users.id"))  # Студент
