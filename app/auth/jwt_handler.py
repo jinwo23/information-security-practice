@@ -9,6 +9,13 @@ from app.config import (
 )
 
 
+# Влад: реалізація логіки створення та перевірки JWT-токенів.
+# У цьому файлі створюються access token і refresh token.
+# Access token використовується для доступу до захищених маршрутів,
+# а refresh token — для отримання нового access token без повторного логіну.
+# Також тут виконується перевірка токена через SECRET_KEY та алгоритм HS256.
+
+
 def create_access_token(user_id: int, role: str):
     expire = datetime.now(timezone.utc) + timedelta(
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
