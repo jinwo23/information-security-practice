@@ -9,7 +9,7 @@ services:
       - db_data:/app_code/data
     environment:
       - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+      - JWT_SECRET_KEY=my-dev-secret-key-32-chars-long!!
 
 volumes:
   db_data:
