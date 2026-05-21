@@ -1,12 +1,21 @@
+# Web framework and ASGI server
 fastapi
 uvicorn[standard]
+
+# Database
 sqlalchemy
 alembic
 aiosqlite
+
+# Authentication & Security
 passlib[bcrypt]
 bcrypt==4.0.1
+python-jose[cryptography]>=3.3.0
+cryptography
+
+# Validation
 pydantic[email]
 email-validator
+
+# File uploads
 python-multipart
-python-jose[cryptography]
-cryptography
