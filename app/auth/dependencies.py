@@ -8,6 +8,13 @@ from app.models import User
 from app.auth.jwt_handler import verify_token
 
 
+# Влад: реалізація FastAPI-залежностей для захисту маршрутів.
+# У цьому файлі перевіряється Bearer JWT-токен,
+# визначається поточний користувач через get_current_user
+# та перевіряється доступ до endpoint-ів за ролями через require_role.
+# Цей код використовується у захищених маршрутах /auth/me, /students, /admin.
+
+
 security = HTTPBearer()
 
 
