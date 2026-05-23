@@ -1,3 +1,7 @@
+# app/schemas.py
+# ПР6: Влад — Pydantic-схеми з валідацією вхідних даних
+# Перший рубіж захисту від XSS та слабких паролів
+
 from datetime import datetime
 import re
 
@@ -5,6 +9,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class UserCreate(BaseModel):
+    # Логін: лише латиниця, цифри та підкреслення (pattern захищає від спецсимволів)
     username: str = Field(
         ...,
         min_length=3,
@@ -13,12 +18,14 @@ class UserCreate(BaseModel):
         description="Логін"
     )
     email: EmailStr
+    # Пароль: мінімум 8 символів, максимум 128
     password: str = Field(
         ...,
         min_length=8,
         max_length=128,
         description="Пароль"
     )
+    # Повне ім'я: обмеження довжини для захисту від переповнення
     full_name: str = Field(
         ...,
         min_length=2,
@@ -26,6 +33,8 @@ class UserCreate(BaseModel):
         description="Повне ім'я"
     )
 
+    # ПР6: Влад — валідація пароля
+    # Вимагає велику літеру, малу літеру та цифру
     @field_validator("password")
     @classmethod
     def validate_password_strength(cls, v: str) -> str:
@@ -37,6 +46,8 @@ class UserCreate(BaseModel):
             raise ValueError("Пароль має містити хоча б одну цифру")
         return v
 
+    # ПР6: Влад — блокує XSS-символи в імені користувача
+    # Символи < > & " ' використовуються для HTML-ін'єкцій
     @field_validator("full_name")
     @classmethod
     def validate_full_name(cls, v: str) -> str:
