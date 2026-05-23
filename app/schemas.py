@@ -37,6 +37,13 @@ class UserCreate(BaseModel):
             raise ValueError("Пароль має містити хоча б одну цифру")
         return v
 
+    @field_validator("full_name")
+    @classmethod
+    def validate_full_name(cls, v: str) -> str:
+        if re.search(r"[<>&\"']", v):
+            raise ValueError("Ім'я не може містити символи < > & \" '")
+        return v.strip()
+
 
 class UserResponse(BaseModel):
     id: int

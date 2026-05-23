@@ -19,3 +19,7 @@ email-validator
 
 # File uploads
 python-multipart
+
+# Web Security 
+bleach>=6.0.0
+slowapi>=0.1.9
