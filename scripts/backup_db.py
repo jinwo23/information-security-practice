@@ -1,3 +1,9 @@
+# scripts/backup_db.py
+# ПР7: Богдан — резервне копіювання бази даних з шифруванням
+# Скрипт створює копію SQLite-бази, шифрує її через Fernet
+# і зберігає результат у папку data/backups у форматі .enc
+
+
 import os
 import sys
 import shutil
