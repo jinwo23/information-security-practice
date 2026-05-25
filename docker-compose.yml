@@ -10,6 +10,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - JWT_SECRET_KEY=my-dev-secret-key-32-chars-long!!
+      # ПР7: Богдан — змінна оточення для ключа шифрування Fernet
+      # Ключ використовується для шифрування персональних даних і backup-файлів
       - ENCRYPTION_KEY=MkpMr1R73rfS-cxZJ6uaqcRhZiWRJcbRu7HRd8UPx9s=
 
 volumes:
