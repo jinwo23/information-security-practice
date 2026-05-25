@@ -1,7 +1,10 @@
-from datetime import datetime 
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime, ForeignKey, Table
 from sqlalchemy.orm import relationship
+
 from app.database import Base
+from app.crypto.encryption import encrypt_field, decrypt_field
 
 
 # =========================
@@ -35,13 +38,42 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)  # Унікальний ID
     username = Column(String)  # Логін
-    email = Column(String)  # Email
+
+    # У БД зберігається не відкритий email/phone, а зашифровані значення
+    encrypted_email = Column(String)  # Зашифрований email
+    encrypted_phone = Column(String, nullable=True)  # Зашифрований телефон
+
     password_hash = Column(String)  # Захешований пароль
     is_active = Column(Boolean, default=True)  # Статус акаунта
     group_id = Column(Integer, ForeignKey("groups.id"))  # Посилання на групу
 
     full_name = Column(String)  # Повне ім’я
     created_at = Column(DateTime, default=datetime.utcnow)  # Дата створення
+
+    # Прозоре розшифрування email при читанні
+    @property
+    def email(self):
+        return decrypt_field(self.encrypted_email)
+
+    # Прозоре шифрування email при записі
+    @email.setter
+    def email(self, value):
+        self.encrypted_email = encrypt_field(value)
+
+    # Прозоре розшифрування телефону при читанні
+    @property
+    def phone(self):
+        if self.encrypted_phone:
+            return decrypt_field(self.encrypted_phone)
+        return None
+
+    # Прозоре шифрування телефону при записі
+    @phone.setter
+    def phone(self, value):
+        if value:
+            self.encrypted_phone = encrypt_field(value)
+        else:
+            self.encrypted_phone = None
 
     # Зв’язки
     roles = relationship("Role", secondary=user_roles)  # Ролі користувача
