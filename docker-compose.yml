@@ -1,19 +1,38 @@
+# docker-compose.yml — Security Enhanced
+# Богдан: секрети тепер через ${} з .env файлу, не захардкоджені
+
 services:
   api:
     build: .
     container_name: dean_office_api
     ports:
-      - "3010:3010"
+      - "8000:8000"
     volumes:
       - .:/app_code
       - db_data:/app_code/data
     environment:
       - PYTHONUNBUFFERED=1
-      - JWT_SECRET_KEY=my-dev-secret-key-32-chars-long!!
-      # ПР7: Богдан — змінна оточення для ключа шифрування Fernet
-      # Ключ використовується для шифрування персональних даних і backup-файлів
-      - ENCRYPTION_KEY=MkpMr1R73rfS-cxZJ6uaqcRhZiWRJcbRu7HRd8UPx9s=
+      - DATABASE_URL=sqlite:////app_code/data/dean_office.db
+      # Артем: секрети беруться з .env файлу — не комітимо в Git!
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    # Влад: security options — захист на рівні Docker
+    security_opt:
+      - no-new-privileges:true   # заборона підвищення привілеїв
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: dean_office_nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - api
+    restart: unless-stopped
 
 volumes:
   db_data:
-# docker config

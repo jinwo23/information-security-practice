@@ -7,4 +7,7 @@ data/
 .venv/
 venv/
 .idea/
-.vscode/
+.vscode/.env
+nginx/certs/*.key
+bandit_report.json
+nginx/certs/*.crt
