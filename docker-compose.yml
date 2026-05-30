@@ -8,17 +8,16 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/app_code
-      - db_data:/app_code/data
+      - db_data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
-      - DATABASE_URL=sqlite:////app_code/data/dean_office.db
+      - DATABASE_URL=sqlite:////app/data/dean_office.db
       # Артем: секрети беруться з .env файлу — не комітимо в Git!
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
     # Влад: security options — захист на рівні Docker
     security_opt:
-      - no-new-privileges:true   # заборона підвищення привілеїв
+      - no-new-privileges:true
     restart: unless-stopped
 
   nginx:
