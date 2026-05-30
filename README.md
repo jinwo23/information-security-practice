@@ -1,7 +1,7 @@
 # Electronic Dean's Office
 
 ## Опис
-REST API на FastAPI + Docker (Практична №7)
+REST API на FastAPI + Docker (Практична №9)
 
 ## Запуск
 docker compose up --build
