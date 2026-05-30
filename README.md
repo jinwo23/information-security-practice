@@ -1,42 +1,44 @@
 # Electronic Dean's Office
 
-## Опис
+## РћРїРёСЃ
 
-REST API на FastAPI + Docker + Nginx HTTPS (Практична №9)
+REST API РЅР° FastAPI + Docker + Nginx HTTPS.
 
-## Запуск
+РџСЂРѕС”РєС‚ СЃС‚РІРѕСЂРµРЅРѕ РґР»СЏ РїСЂР°РєС‚РёС‡РЅРёС… СЂРѕР±С–С‚ Р· Р±РµР·РїРµРєРё С–РЅС„РѕСЂРјР°С†С–Р№РЅРёС… СЃРёСЃС‚РµРј.
+
+## Р—Р°РїСѓСЃРє
 
 docker compose up --build
 
-## Доступ
+## Р”РѕСЃС‚СѓРї
 
 https://localhost  
 https://localhost/docs  
 
-Або напряму до API:
+РђР±Рѕ РЅР°РїСЂСЏРјСѓ РґРѕ API:
 
 http://localhost:8000  
 http://localhost:8000/docs  
 
-## Студенти
+## РЎС‚СѓРґРµРЅС‚Рё
 
-Пугач Антон  
-Журавський Богдан  
-Козаченко Владислав  
-Молодоженя Артем
+РџСѓРіР°С‡ РђРЅС‚РѕРЅ  
+Р–СѓСЂР°РІСЃСЊРєРёР№ Р‘РѕРіРґР°РЅ  
+РљРѕР·Р°С‡РµРЅРєРѕ Р’Р»Р°РґРёСЃР»Р°РІ  
+РњРѕР»РѕРґРѕР¶РµРЅСЏ РђСЂС‚РµРј  
 
-## Безпека
+## Р‘РµР·РїРµРєР°
 
-У проєкті реалізовано базові механізми захисту:
+РЈ РїСЂРѕС”РєС‚С– СЂРµР°Р»С–Р·РѕРІР°РЅРѕ Р±Р°Р·РѕРІС– РјРµС…Р°РЅС–Р·РјРё Р·Р°С…РёСЃС‚Сѓ:
 
-- Автентифікація: Bcrypt-хешування паролів, JWT access та refresh tokens
-- Авторизація: RBAC з ролями admin, teacher, student
-- Валідація: Pydantic-схеми, ORM-захист від SQL Injection
-- Шифрування: Field-Level Encryption для email та телефону
-- Audit Log: фіксація подій входу, помилок та дій користувачів
-- Brute Force Protection: обмеження кількості спроб входу
+- РђРІС‚РµРЅС‚РёС„С–РєР°С†С–СЏ: Bcrypt-С…РµС€СѓРІР°РЅРЅСЏ РїР°СЂРѕР»С–РІ, JWT access С‚Р° refresh tokens
+- РђРІС‚РѕСЂРёР·Р°С†С–СЏ: RBAC Р· СЂРѕР»СЏРјРё admin, teacher, student
+- Р’Р°Р»С–РґР°С†С–СЏ: Pydantic-СЃС…РµРјРё, ORM-Р·Р°С…РёСЃС‚ РІС–Рґ SQL Injection
+- РЁРёС„СЂСѓРІР°РЅРЅСЏ: Field-Level Encryption РґР»СЏ email С‚Р° С‚РµР»РµС„РѕРЅСѓ
+- Audit Log: С„С–РєСЃР°С†С–СЏ РїРѕРґС–Р№ РІС…РѕРґСѓ, РїРѕРјРёР»РѕРє С‚Р° РґС–Р№ РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ
+- Brute Force Protection: РѕР±РјРµР¶РµРЅРЅСЏ РєС–Р»СЊРєРѕСЃС‚С– СЃРїСЂРѕР± РІС…РѕРґСѓ
 - Security Headers: CSP, HSTS, X-Frame-Options, X-Content-Type-Options
 - Docker Hardening: non-root user, no-new-privileges
-- DevSecOps-перевірки: Bandit, pip-audit, Trivy
+- DevSecOps-РїРµСЂРµРІС–СЂРєРё: Bandit, pip-audit, Trivy
 
-Повний звіт аудиту безпеки: [SECURITY_AUDIT.md](./SECURITY_AUDIT.md)
+РџРѕРІРЅРёР№ Р·РІС–С‚ Р°СѓРґРёС‚Сѓ Р±РµР·РїРµРєРё: [SECURITY_AUDIT.md](./SECURITY_AUDIT.md)
