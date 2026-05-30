@@ -1,6 +1,10 @@
+# app/routers/auth.py
+# Антон: роутер автентифікації з інтеграцією системи аудиту
+
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from jose import JWTError
+from datetime import datetime, timezone
 
 from app.database import get_db
 from app.models import User
@@ -15,6 +19,10 @@ from app.security import hash_password, verify_password
 from app.auth.jwt_handler import create_access_token, create_refresh_token, verify_token
 from app.auth.dependencies import get_current_user
 from app.middleware.rate_limiter import limiter
+
+# Богдан: імпортуємо функції аудиту для логування подій входу
+from app.audit.logger import log_login_success, log_login_failed
+from app.audit.detector import check_brute_force, check_off_hours_access
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -77,18 +85,34 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login", response_model=TokenResponse)
 @limiter.limit("5/minute")
 def login(request: Request, data: LoginRequest, db: Session = Depends(get_db)):
-    user = db.query(User).filter(
-        User.username == data.username
-    ).first()
+    ip = request.client.host if request.client else "unknown"
+
+    # Влад: перевірка Brute Force ДО перевірки пароля — важливий порядок!
+    if check_brute_force(db, ip):
+        log_login_failed(db, data.username, ip, reason="brute_force_blocked")
+        raise HTTPException(
+            status_code=429,
+            detail="Забагато невдалих спроб. Спробуйте через 5 хвилин."
+        )
+
+    user = db.query(User).filter(User.username == data.username).first()
 
     if not user or not verify_password(data.password, user.password_hash):
+        # Артем: логуємо невдалу спробу — підвищує лічильник Brute Force
+        log_login_failed(db, data.username, ip)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Невірний логін або пароль"
         )
 
-    role = get_user_role(user)
+    # Антон: перевіряємо нічний вхід — деканат не працює між 00:00 і 06:00
+    current_hour = datetime.now(timezone.utc).hour
+    check_off_hours_access(db, user.id, user.username, ip, current_hour)
 
+    # Богдан: логуємо успішний вхід
+    log_login_success(db, user.id, user.username, ip)
+
+    role = get_user_role(user)
     access_token = create_access_token(user.id, role)
     refresh_token = create_refresh_token(user.id)
 
@@ -132,7 +156,6 @@ def refresh_token(body: TokenRefreshRequest, db: Session = Depends(get_db)):
         )
 
     role = get_user_role(user)
-
     access_token = create_access_token(user.id, role)
     refresh_token = create_refresh_token(user.id)
 
