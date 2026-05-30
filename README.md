@@ -1,17 +1,26 @@
 # Electronic Dean's Office
 
-## РћРїРёСЃ
-REST API РЅР° FastAPI + Docker (РџСЂР°РєС‚РёС‡РЅР° в„–9)
+## Опис
 
-## Р—Р°РїСѓСЃРє
+REST API на FastAPI + Docker + Nginx HTTPS (Практична №9)
+
+## Запуск
+
 docker compose up --build
 
-## Р”РѕСЃС‚СѓРї
-http://localhost:3010  
-http://localhost:3010/docs
+## Доступ
 
-## РЎС‚СѓРґРµРЅС‚Рё
-РџСѓРіР°С‡ РђРЅС‚РѕРЅ  
-Р–СѓСЂР°РІСЃСЊРєРёР№ Р‘РѕРіРґР°РЅ  
-РљРѕР·Р°С‡РµРЅРєРѕ Р’Р»Р°РґРёСЃР»Р°РІ  
-РњРѕР»РѕРґРѕР¶РµРЅСЏ РђСЂС‚РµРј
+https://localhost  
+https://localhost/docs  
+
+Або напряму до API:
+
+http://localhost:8000  
+http://localhost:8000/docs  
+
+## Студенти
+
+Пугач Антон  
+Журавський Богдан  
+Козаченко Владислав  
+Молодоженя Артем
